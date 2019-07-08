@@ -9,28 +9,35 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
     var timer = Timer()
+
+    @IBOutlet weak var timeLabel: UILabel!
+    
+    @IBOutlet weak var fractionsLabel: UILabel!
     
     var (hours,minutes,seconds,fractions) = (0,0,0,0)
-    
-    @IBOutlet weak var time: UILabel!
-    
-    @IBAction func Start(_ sender: UIButton) {
+ 
+    @IBAction func Start(_ sender: Any) {
         timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(ViewController.keepTimer), userInfo: nil, repeats: true)
     }
     
-    @IBAction func Stop(_ sender: UIButton) {
-        
+    @IBAction func Stop(_ sender: Any) {
+        timer.invalidate()
     }
     
-    @IBAction func Reset(_ sender: UIButton) {
+    
+    @IBAction func Reset(_ sender: Any) {
+        timer.invalidate()
+        
         (hours,minutes,seconds,fractions) = (0,0,0,0)
         
-        time.text = "\(hours):\(minutes):\(seconds)\(fractions)"
+        timeLabel.text = "00:00:00"
+        fractionsLabel.text=".00"
     }
     
-    func keepTimer(){
+    
+    @objc func keepTimer() {
         fractions += 1
         if fractions > 99 {
             seconds += 1
@@ -41,18 +48,21 @@ class ViewController: UIViewController {
             seconds = 0
             
         }
-        if minutes==60{
+        if minutes == 60{
             hours+=1
             minutes = 0
         }
         
-        time.text = "\(hours):\(minutes):\(seconds)\(fractions)"
+        let secondsString = seconds > 9 ? "\(seconds)" : "0\(seconds)"
+        
+        let minutesString = minutes > 9 ? "\(minutes)" : "0\(minutes)"
+        
+        let hoursString = hours > 9 ? "\(hours)" : "0\(hours)"
+        
+        timeLabel.text = "\(hoursString):\(minutesString):\(secondsString)"
+        
+        fractionsLabel.text = ".\(fractions)"
     }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-    }
-
-
+    
 }
 
