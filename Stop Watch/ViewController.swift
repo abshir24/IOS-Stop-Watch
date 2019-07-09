@@ -12,22 +12,42 @@ class ViewController: UIViewController {
     
     var timer = Timer()
 
+   
+    
+    @IBOutlet var _scrollView: UIView!
+    
     @IBOutlet weak var timeLabel: UILabel!
     
     @IBOutlet weak var fractionsLabel: UILabel!
     
+    @IBOutlet weak var stopButton: UIButton!
+    
+    @IBOutlet weak var startButton: UIButton!
+    
     var (hours,minutes,seconds,fractions) = (0,0,0,0)
- 
-    @IBAction func Start(_ sender: Any) {
+    
+    override func viewDidLoad(){
+
+        _scrollView.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        
+        stopButton.layer.cornerRadius = 35.0
+        
+        startButton.layer.cornerRadius = 35.0
+
+        super.viewDidLoad()
+
+    }
+//
+    @IBAction func Start(_ sender: UIButton) {
         timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(ViewController.keepTimer), userInfo: nil, repeats: true)
     }
     
-    @IBAction func Stop(_ sender: Any) {
+    @IBAction func Stop(_ sender: UIButton) {
         timer.invalidate()
     }
     
     
-    @IBAction func Reset(_ sender: Any) {
+    @IBAction func Reset(_ sender: UIButton) {
         timer.invalidate()
         
         (hours,minutes,seconds,fractions) = (0,0,0,0)
